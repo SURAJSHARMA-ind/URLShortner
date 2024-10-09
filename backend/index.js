@@ -1,10 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-const port = 3000;
-const host = "localhost";
+app.use(cors());
+const config = require("./config/config");
 const urlRoute = require("./routes/url");
 const UrlModel = require("./database/db");
 
@@ -15,10 +16,10 @@ app.use(express.json());
 
 app.use("/short", urlRoute);
 
-app.post("/:shortId", async (req, res) => {
+app.get("/:shortId", async (req, res) => {
   const id = req.params.shortId;
   console.log(id);
-  
+
   if (!id) {
     return res.status(400).send({
       message: " Incorrect format ",
@@ -40,6 +41,6 @@ app.post("/:shortId", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server is running at http://${host}:${port}`);
+app.listen(config.port, () => {
+  console.log(`Server is running at http://${config.hostname}:${config.port}`);
 });

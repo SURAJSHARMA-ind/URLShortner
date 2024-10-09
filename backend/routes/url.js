@@ -2,7 +2,9 @@ const express = require("express");
 const router = express.Router();
 const UrlModel = require("../database/db");
 const shortUuid = require("short-uuid");
-const app = express();
+require("dotenv").config();
+const config = require("../config/config");  
+const app = express(); 
 
 app.use(express.json());
 
@@ -18,7 +20,8 @@ router.post("/url", async (req, res) => {
     const existingUrl = await UrlModel.findOne({ mainurl: inputUrl.url });
     if (existingUrl) {
       return res.send({
-        message: `Short URL already exist ${existingUrl.shortUrl}`,
+        message: `Short URL already exist `,
+        shortUrl : `http://${config.hostname}:${config.port}/${existingUrl.shortUrl}`
       });
     }
       console.log("newstage");
@@ -33,7 +36,7 @@ router.post("/url", async (req, res) => {
       });
       return res.status(200).json({
         message: "Url generated",
-        url: shortId,
+        shortUrl:  `http://${config.hostname}:${config.port}/${shortId}`,
       });
     
   } catch (error) {

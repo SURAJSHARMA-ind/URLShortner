@@ -1,6 +1,9 @@
 import React from "react";
+import RazorpayButton from "./RazorpayButton";
+import { useNavigate } from "react-router-dom";
 
 const Pricing = () => {
+  const navigate = useNavigate();
   return (
     <section className=" min-h-screen h-full w-full justify-center absolute flex bg-yellow-200 bg-opacity-50 py-20">
       <div className="max-w-6xl mx-auto px-4">
@@ -15,9 +18,7 @@ const Pricing = () => {
                 <li className="mb-2">Create short URLs</li>
               </ul>
             </div>
-            <button className="w-full bg-yellow-300 font-semibold py-2 rounded-full hover:bg-yellow-400 transition-all duration-200">
-              Get Started
-            </button>
+            <button onClick={()=>navigate('/mainscreen')} className="bg-yellow-300 hover:bg-yellow-400 p-2 rounded-md">Start Now</button>
           </div>
 
           {/* Standard Plan */}
@@ -30,9 +31,7 @@ const Pricing = () => {
                 <li className="mb-2">Make your custom URLs</li>
               </ul>
             </div>
-            <button className="w-full bg-yellow-300 font-semibold py-2 rounded-full hover:bg-yellow-400 transition-all duration-200">
-              Get Started
-            </button>
+            <RazorpayButton />
           </div>
 
           {/* Premium Plan */}
@@ -46,9 +45,7 @@ const Pricing = () => {
                 <li className="mb-2">Access URL analytics</li>
               </ul>
             </div>
-            <button className="w-full bg-yellow-300 font-semibold py-2 rounded-full hover:bg-yellow-400 transition-all duration-200">
-              Get Started
-            </button>
+            <RazorpayButton />
           </div>
         </div>
       </div>

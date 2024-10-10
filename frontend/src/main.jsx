@@ -11,6 +11,7 @@ import {
 import HeroSection from './components/HeroSection.jsx';
 import Pricing from './components/Pricing.jsx';
 import MainScreen from './components/MainScreen.jsx';
+import RazorpayButton from './components/RazorpayButton.jsx';
 
 
 const router = createBrowserRouter(
@@ -19,6 +20,7 @@ const router = createBrowserRouter(
       <Route path="" element={<HeroSection />} />
       <Route path="pricing" element={<Pricing />} />
       <Route path="mainscreen" element={<MainScreen />} />
+      <Route path="razorpay" element={<RazorpayButton />} />
     </Route>
   )
 );

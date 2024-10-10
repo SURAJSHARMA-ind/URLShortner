@@ -8,12 +8,13 @@ app.use(cors());
 const config = require("./config/config");
 const urlRoute = require("./routes/url");
 const UrlModel = require("./database/db");
+const paymentRoutes = require('./routes/paymentRoutes');
 
 const connectionString = process.env.MONGODB_URI;
 mongoose.connect(connectionString);
 
 app.use(express.json());
-
+app.use('/api/payment', paymentRoutes);
 app.use("/short", urlRoute);
 
 app.get("/:shortId", async (req, res) => {

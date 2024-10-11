@@ -65,7 +65,7 @@ const RazorpayButton = () => {
                     contact: '',
                 },
                 theme: {
-                    color: '#3399cc',
+                    color: '#FBEC5D',
                 },
             };
 

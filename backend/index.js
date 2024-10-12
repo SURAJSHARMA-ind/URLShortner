@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const requestIp = require('request-ip');
 require("dotenv").config();
 
 const app = express();
@@ -13,9 +14,16 @@ const paymentRoutes = require('./routes/paymentRoutes');
 const connectionString = process.env.MONGODB_URI;
 mongoose.connect(connectionString);
 
+app.use(requestIp.mw());
 app.use(express.json());
 app.use('/api/payment', paymentRoutes);
 app.use("/short", urlRoute);
+
+app.get('/', (req, res) => {
+  const userIp = req.clientIp; // Automatically set by request-ip middleware
+  res.send(`User's IP address is: ${userIp}`);
+});
+
 
 app.get("/:shortId", async (req, res) => {
   const id = req.params.shortId;
@@ -41,6 +49,7 @@ app.get("/:shortId", async (req, res) => {
     });
   }
 });
+
 
 app.listen(config.port, () => {
   console.log(`Server is running at http://${config.hostname}:${config.port}`);

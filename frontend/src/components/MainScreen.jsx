@@ -19,8 +19,8 @@ function MainScreen() {
       setUrl('');
       setLoading(false);
     } catch (error) {
-      setMessage('Error shortening URL');
-      console.error('Error fetching short URL:', error);
+      toast.error('Error shortening URL');
+      toast.error('Error fetching short URL:', error);  
     }
   };
 

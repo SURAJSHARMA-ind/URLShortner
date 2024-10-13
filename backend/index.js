@@ -12,7 +12,14 @@ const UrlModel = require("./database/db");
 const paymentRoutes = require('./routes/paymentRoutes');
 
 const connectionString = process.env.MONGODB_URI;
-mongoose.connect(connectionString);
+
+// Establish connection to MongoDB with error handling
+mongoose.connect(connectionString, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log("Connected to MongoDB successfully"))
+  .catch((error) => console.error("MongoDB connection error:", error));
 
 app.use(requestIp.mw());
 app.use(express.json());
@@ -24,32 +31,34 @@ app.get('/', (req, res) => {
   res.send(`User's IP address is: ${userIp}`);
 });
 
-
 app.get("/:shortId", async (req, res) => {
   const id = req.params.shortId;
   console.log(id);
 
   if (!id) {
     return res.status(400).send({
-      message: " Incorrect format ",
+      message: "Incorrect format",
     });
   }
+
   try {
-    const existingId = await UrlModel.findOne({ shortUrl: id });
+    const update = { $inc: { visitors: 1 } }; // Fixed syntax error here
+    const existingId = await UrlModel.findOneAndUpdate({ shortUrl: id }, update, { new: true });
+
     if (!existingId) {
       return res.status(404).send({
         message: "Not found",
       });
     }
+
     const redirectUrl = existingId.mainurl;
     res.redirect(redirectUrl);
   } catch (error) {
     return res.status(500).send({
-      message: `Error : ${error}`,
+      message: `Error: ${error}`,
     });
   }
 });
-
 
 app.listen(config.port, () => {
   console.log(`Server is running at http://${config.hostname}:${config.port}`);

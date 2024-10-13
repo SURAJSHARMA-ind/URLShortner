@@ -33,6 +33,7 @@ router.post("/url", async (req, res) => {
       await UrlModel.create({
         mainurl: inputUrl.url,
         shortUrl: shortId,
+        visitors,
       });
       return res.status(200).json({
         message: "Url generated",

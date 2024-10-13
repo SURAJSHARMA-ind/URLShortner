@@ -5,10 +5,8 @@ const Url = new Schema(
   {
     mainurl: { type: String, required: true, unique: true },
     shortUrl: { type: String, unique: true },
-  },
-  {
-    visitor: { type: Number },
-    location: { type: String },
+    visitors: { type: Number , default:0},
+    location: [],
     device: { type: String },
   },
   { timestamps: true }

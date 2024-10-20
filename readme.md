@@ -8,10 +8,7 @@ Welcome to **TinyURLs**! This is a simple and efficient URL shortener that allow
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+
 
 ## Features
 

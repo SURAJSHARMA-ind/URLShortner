@@ -24,7 +24,6 @@ router.post("/url", async (req, res) => {
         shortUrl : `http://${config.hostname}:${config.port}/${existingUrl.shortUrl}`
       });
     }
-      console.log("newstage");
 
       const id = shortUuid.generate();
       const shortId =id.slice(0,8)
@@ -33,7 +32,6 @@ router.post("/url", async (req, res) => {
       await UrlModel.create({
         mainurl: inputUrl.url,
         shortUrl: shortId,
-        visitors,
       });
       return res.status(200).json({
         message: "Url generated",

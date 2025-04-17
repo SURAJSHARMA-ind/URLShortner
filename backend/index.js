@@ -1,26 +1,25 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+
 require("dotenv").config();
 
 const app = express();
-const config = require("./config/config");
+ 
 const urlRoute = require("./routes/url");
 const UrlModel = require("./database/db");
-const paymentRoutes = require('./routes/paymentRoutes');
 const visitorsInfo = require("./middleware/visitorsInfo");
+const paymentRoutes = require('./routes/paymentRoutes');
+const port = process.env.PORT || 3000
+const connectionString = process.env.MONGODB_URI;
 
 app.use(cors());
 app.use(express.json());
 
-const connectionString = process.env.MONGODB_URI;
-mongoose.connect(connectionString)
-  .then(() => console.log("Connected to MongoDB successfully"))
-  .catch((error) => console.error("MongoDB connection error:", error));
-
 app.use('/api/payment', paymentRoutes);
 app.use("/short", urlRoute);
 
+app.use('/api/payment', paymentRoutes);
 app.get("/:shortId", visitorsInfo, async (req, res) => {
   const id = req.params.shortId;
   console.log("Short URL ID:", id);
@@ -30,7 +29,7 @@ app.get("/:shortId", visitorsInfo, async (req, res) => {
   }
 
   try {
-    const update = { $inc: { visitors: 1 } }; 
+    const update = { $inc: { visitors: 1 } };
     const existingId = await UrlModel.findOneAndUpdate({ shortUrl: id }, update, { new: true });
 
     if (!existingId) {
@@ -48,7 +47,7 @@ app.get("/test-user-agent", (req, res) => {
   const userAgent = req.useragent;
   console.log("User-Agent:", userAgent);
   res.send({ userAgent });
-});
+}); 
 
 
 app.use((err, req, res, next) => {
@@ -57,6 +56,12 @@ app.use((err, req, res, next) => {
 });
 
 
-app.listen(config.port, () => {
-  console.log(`Server is running at http://${config.hostname}:${config.port}`);
-});
+mongoose.connect(connectionString)
+  .then(() => {
+    console.log("Connected to MongoDB successfully")
+    app.listen(port, () => {
+      console.log(`Server is running at http://localhost:${port}`);
+    })
+  }
+  ).catch((error) => console.error("MongoDB connection error:", error));
+

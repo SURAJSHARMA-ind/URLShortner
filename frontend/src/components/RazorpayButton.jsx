@@ -1,93 +1,46 @@
 import React from 'react';
+import axios from 'axios';
 
-const RazorpayButton = () => {
-    // Function to load the Razorpay checkout script
-    const loadRazorpayScript = () => {
-        return new Promise((resolve) => {
-            const script = document.createElement('script');
-            script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-            script.onload = () => {
-                resolve(true);
-            };
-            script.onerror = () => {
-                resolve(false);
-            };
-            document.body.appendChild(script);
-        });
-    };
-
-    // Function to handle the payment when the button is clicked
+const PaymentButton = () => {
+    const razorPayID= import.meta.env.VITE_RAZORPAY_KEY_ID
     const handlePayment = async () => {
-        const isScriptLoaded = await loadRazorpayScript();
-
-        if (!isScriptLoaded) {
-            alert('Razorpay SDK failed to load. Please check your internet connection.');
-            return;
-        }
-
-        // Call your backend to create a new order and get the order details
         try {
-            const response = await fetch('http://localhost:3000/api/payment/create-order', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    amount: 50000, // Amount in the smallest currency unit (e.g., 50000 paisa = ₹500)
-                    currency: 'INR',
-                    receipt: 'receipt_123456',
-                }),
+            // Create order via backend
+            const response = await axios.post('http://localhost:3000/api/payment/create-order', {
+                amount: 500, // Amount in rupees
+                currency: 'INR',
             });
 
-            const orderData = await response.json();
+            const { id: order_id, amount, currency } = response.data;
 
-            if (!orderData.success) {
-                alert('Failed to create Razorpay order');
-                return;
-            }
-
-            // Options for the Razorpay payment object
+            // Set up RazorPay options
             const options = {
-                key: import.meta.env.VITE_RAZORPAY_KEY_ID, // Replace with your Razorpay key ID
-                amount: orderData.order.amount,
-                currency: orderData.order.currency,
-                name: 'TinyUrls',
-                description: 'Test Transaction',
-                order_id: orderData.order.id, // Razorpay Order ID from your backend
-                handler: function (response) {
-                    // This function handles the successful payment response
+                key: razorPayID,
+                amount: amount,
+                currency: currency,
+                name: "Suraj Sharma", // user name 
+                description: "Test Transaction",
+                order_id: order_id,
+                handler: (response) => {
                     alert(`Payment Successful! Payment ID: ${response.razorpay_payment_id}`);
-                    console.log(response);
                 },
                 prefill: {
-                    name: 'Suraj Sharma',
-                    email: 'suraj@example.com',
-                    contact: '',
+                    name: "John Doe",
+                    email: "john.doe@example.com",
                 },
                 theme: {
-                    color: '#FBEC5D',
+                    color: "#FFFF8F",
                 },
             };
 
-            // Initialize the Razorpay payment object and open the checkout popup
             const paymentObject = new window.Razorpay(options);
             paymentObject.open();
         } catch (error) {
-            console.error('Error in handlePayment:', error);
-            alert('An error occurred while initiating the payment.');
+            console.error('Payment initiation failed:', error);
         }
     };
 
-    return (
-        <div>
-            <button
-                onClick={handlePayment}
-                className='bg-yellow-300 hover:bg-yellow-400 p-2 rounded-md w-full'
-            >
-                Pay Now
-            </button>
-        </div>
-    );
+    return <button className='bg-yellow-300 hover:bg-yellow-400 text-black p-2  rounded-md ' onClick={handlePayment}>Pay Now</button>;
 };
 
-export default RazorpayButton;
+export default PaymentButton;

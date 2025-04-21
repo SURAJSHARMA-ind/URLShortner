@@ -6,7 +6,7 @@ const PaymentButton = () => {
     const handlePayment = async () => {
         try {
             // Create order via backend
-            const response = await axios.post('http://localhost:3000/api/payment/create-order', {
+            const response = await axios.post('http://localhost:3000/api/v1/payment/create-order', {
                 amount: 500, // Amount in rupees
                 currency: 'INR',
             });

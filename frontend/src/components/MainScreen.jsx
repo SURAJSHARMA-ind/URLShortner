@@ -11,7 +11,7 @@ function MainScreen() {
 
   const findShortLink = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/api/v1/short/url', {
+      const response = await axios.post('https://urlshortnerbackend-cgji.onrender.com/api/v1/short/url', {
         url: url,
       });
       setMessage(response.data.message);

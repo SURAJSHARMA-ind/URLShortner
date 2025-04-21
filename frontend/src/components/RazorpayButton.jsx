@@ -3,10 +3,11 @@ import axios from 'axios';
 
 const PaymentButton = () => {
     const razorPayID= import.meta.env.VITE_RAZORPAY_KEY_ID
+    const backendUrl  = import.meta.env.VITE_HOST
     const handlePayment = async () => {
         try {
             // Create order via backend
-            const response = await axios.post('http://localhost:3000/api/v1/payment/create-order', {
+            const response = await axios.post(`${backendUrl}/api/v1/payment/create-order`, {
                 amount: 500, // Amount in rupees
                 currency: 'INR',
             });

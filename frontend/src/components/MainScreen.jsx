@@ -8,11 +8,10 @@ function MainScreen() {
   const [message, setMessage] = useState('');
   const [shortUrl, setShortUrl] = useState('');
   const [loading, setLoading] = useState(true);
-
   const backendUrl  = import.meta.env.VITE_HOST
   const findShortLink = async () => {
     try {
-      const response = await axios.post(backendUrl, {
+      const response = await axios.post(`${backendUrl}/api/v1/short/url`, {
         url: url,
       });
       setMessage(response.data.message);

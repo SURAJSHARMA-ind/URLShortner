@@ -1,0 +1,1 @@
+{"root":["./src/index.ts","./src/controllers/razorpay.ts","./src/controllers/razorpayorder.ts","./src/controllers/urlcontroller.ts","./src/database/dbtypes.ts","./src/models/url.ts","./src/routes/paymentroutes.ts","./src/routes/url.ts"],"version":"5.8.3"}

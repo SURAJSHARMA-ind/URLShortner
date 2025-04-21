@@ -9,9 +9,10 @@ function MainScreen() {
   const [shortUrl, setShortUrl] = useState('');
   const [loading, setLoading] = useState(true);
 
+  const backendUrl  = import.meta.env.VITE_HOST
   const findShortLink = async () => {
     try {
-      const response = await axios.post('https://urlshortnerbackend-cgji.onrender.com/api/v1/short/url', {
+      const response = await axios.post(backendUrl, {
         url: url,
       });
       setMessage(response.data.message);

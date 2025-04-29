@@ -1,37 +1,95 @@
 # TinyURLs
-Status : Not Completed
 
-Welcome to **TinyURLs**! This is a simple and efficient URL shortener that allows users to convert long URLs into shorter, more manageable links. Whether you need to share links on social media, in emails, or for any other purpose, TinyURLs makes it easy!
-
-## Table of Contents
-
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Installation](#installation)
-
+A modern URL shortening service built with React, Node.js, and MongoDB.
 
 ## Features
 
-- **URL Shortening**: Convert long URLs into short links quickly.
-- **User-Friendly Interface**: A clean and intuitive design for easy navigation.
-- **Copy to Clipboard**: Easily copy shortened links to your clipboard with a single click.
-- **Responsive Design**: Works seamlessly on both desktop and mobile devices.
-- **Analytics**: Track the number of clicks on your shortened links (upcoming feature).
-- **Custom Aliases**: Create custom short links for easy identification (upcoming feature).
+- ✂️ **URL Shortening**: Convert long URLs into concise, shareable links.
+- 📊 **Analytics**: Track the number of visitors for each shortened link. (Upcomming)
+- 💳 **Payment Integration**: Includes Razorpay integration for potential premium features.
+- 📱 **Responsive Design**: Built with Tailwind CSS for a seamless experience on all devices.
 
-## Technologies Used
+## Tech Stack
 
-- **Frontend**: React.js, Tailwind CSS
-- **Backend**: Node.js, Express
-- **Database**: MongoDB (or any other database of your choice)
-- **Deployment**: Vercel (for frontend), Heroku (for backend)
+### Frontend
+- React.js (with Vite)
+- Tailwind CSS
+- React Router
+- Axios (for API calls)
+- Razorpay Checkout
+
+### Backend
+- Node.js
+- Express.js
+- TypeScript
+- MongoDB (with Mongoose)
+- short-uuid (for generating short IDs)
+- CORS
+- dotenv (for environment variables)
+
+## Prerequisites
+
+- Node.js (v14 or higher recommended)
+- npm or yarn
+- MongoDB instance (local or cloud)
+- Razorpay Account (if using payment features)
 
 ## Installation
 
-To run TinyURLs locally, follow these steps:
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/SURAJSHARMA-ind/URLShortner.git
+    cd URLShortner
+    ```
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/SURAJSHARMA-ind/URLShortner.git
+2.  **Backend Setup**:
+    ```bash
+    cd backend
+    npm install
+    ```
+    Create a `.env` file in the `backend` directory and add the following variables:
+    ```plaintext
+    PORT=3000
+    MONGODB_URI=your_mongodb_connection_string
+    BASE_URL=http://localhost:3000 # Or your deployed backend URL
+    RAZORPAY_KEY_ID=your_razorpay_key_id
+    RAZORPAY_KEY_SECRET=your_razorpay_secret
+    ```
 
-   cd URLShortner
+3.  **Frontend Setup**:
+    ```bash
+    cd ../frontend
+    npm install
+    ```
+    Create a `.env` file in the `frontend` directory and add the following variables:
+    ```plaintext
+    VITE_HOST=http://localhost:3000 # Your backend API base URL
+    VITE_RAZORPAY_KEY=your_razorpay_key_id
+    ```
+
+## Running the Application
+
+1.  **Start the backend server**:
+    ```bash
+    cd backend
+    npm run dev 
+    ```
+    The backend server will typically run on `http://localhost:3000`.
+
+2.  **Start the frontend development server**:
+    ```bash
+    cd ../frontend
+    npm run dev
+    ```
+    The frontend application will usually be available at `http://localhost:5173` (or another port specified by Vite).
+
+## API Endpoints
+
+The backend exposes the following endpoints:
+
+-   `POST /api/v1/short/url`: Creates a new shortened URL.
+    -   **Request Body**: `{ "url": "your_long_url_here" }`
+    -   **Response**: `{ "message": "...", "shortUrl": "..." }`
+-   `GET /:shortId`: Redirects to the original long URL associated with the `shortId` and increments the visitor count.
+-   `POST /api/v1/payment/order`: (Assuming based on `paymentRoutes`) Creates a Razorpay order.
+-   `POST /api/v1/payment/verify`: (Assuming based on `paymentRoutes`) Verifies a Razorpay payment.

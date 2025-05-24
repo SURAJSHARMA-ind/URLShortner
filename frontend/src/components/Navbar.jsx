@@ -19,8 +19,8 @@ function Navbar() {
 
 
       <div className=" flex gap-4  lg:gap-6  sm:gap-4 m-5 text-center items-center ">
-        <Link to="/features" title="" className="text-base text-black hover:text-red-500">Features</Link>
-        <Link to="/api" title="" className="text-base text-black hover:text-red-500">API</Link>
+{/*         <Link to="/features" title="" className="text-base text-black hover:text-red-500">Features</Link>
+        <Link to="/api" title="" className="text-base text-black hover:text-red-500">API</Link> */}
         <Link to="/pricing" title="" className="text-base text-black hover:text-red-500">Pricing</Link>
       </div>
     </div>
